@@ -1,0 +1,6 @@
+[submodule "deps/systemc"]
+	path = deps/systemc
+	url = https://github.com/accellera-official/systemc.git
+[submodule "deps/yaml-cpp"]
+	path = deps/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp.git
