@@ -1,53 +1,56 @@
 #pragma once
 #include <ostream>
+#include <set>
 #include <string>
 #include <vector>
-#include <set>
+
 #include "Graph/Graph.hpp"
 
+class RoutingTable {
+ public:
+  // ID to Relay relations
+  using Node = std::vector<std::vector<std::int32_t>>;
 
+ private:
+  // ID to Relations
+  std::vector<Node> Nodes;
 
-class RoutingTable
-{
-public:
-	// ID to Relay relations
-	using Node = std::vector<std::vector<std::int32_t>>;
+ public:
+  RoutingTable();
+  RoutingTable(const std::string& path);
 
-private:
-	// ID to Relations
-	std::vector<Node> Nodes;
+  bool Load(const std::string& path);
 
-public:
-	RoutingTable();
-	RoutingTable(const std::string& path);
+  void Init(const Graph& graph);
+  bool LoadDijkstra(const Graph& graph);
+  bool LoadUpDown(const Graph& graph);
+  bool LoadMeshXY(const Graph& graph);
+  bool LoadCirculantPairExchange(const Graph& graph);
+  bool LoadCirculantClockwise(const Graph& graph);
+  bool LoadCirculantAdaptive(const Graph& graph);
+  bool LoadCirculantMultiplicative(const Graph& graph);
+  bool LoadGreedyPromotion(const Graph& graph);
 
-	bool Load(const std::string& path);
+  void Adjust(const Graph& src_graph, const Graph& dst_graph);
+  void Promote(const Graph& graph);
 
-	void Init(const Graph& graph);
-	bool LoadDijkstra(const Graph& graph);
-	bool LoadUpDown(const Graph& graph);
-	bool LoadMeshXY(const Graph& graph);
-	bool LoadCirculantPairExchange(const Graph& graph);
-	bool LoadCirculantClockwise(const Graph& graph);
-	bool LoadCirculantAdaptive(const Graph& graph);
-	bool LoadCirculantMultiplicative(const Graph& graph);
-	bool LoadGreedyPromotion(const Graph& graph);
+  void push_back(Node&& node);
 
-	void Adjust(const Graph &src_graph, const Graph &dst_graph);
-	void Promote(const Graph &graph);
+  Node& operator[](std::int32_t node_id);
+  const Node& operator[](std::int32_t node_id) const;
 
-	void push_back(Node&& node);
+  bool IsValid() const;
 
-	Node& operator[](std::int32_t node_id);
-	const Node& operator[](std::int32_t node_id) const;
+ private:
+  void get_paths_helper(const Graph& graph,
+                        std::vector<std::vector<std::int32_t>>& paths,
+                        std::vector<std::int32_t> path, std::int32_t next,
+                        std::int32_t d) const;
 
-	bool IsValid() const;
+ public:
+  std::vector<std::vector<std::int32_t>> GetPaths(const Graph& graph,
+                                                  std::int32_t s,
+                                                  std::int32_t d) const;
 
-private:
-	void get_paths_helper(const Graph &graph, std::vector<std::vector<std::int32_t>> &paths, 
-		std::vector<std::int32_t> path, std::int32_t next, std::int32_t d) const;
-public:
-	std::vector<std::vector<std::int32_t>> GetPaths(const Graph &graph, std::int32_t s, std::int32_t d) const;
-
-	friend std::ostream& operator<<(std::ostream& os, const RoutingTable& rt);
+  friend std::ostream& operator<<(std::ostream& os, const RoutingTable& rt);
 };
