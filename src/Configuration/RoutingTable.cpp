@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <limits>
 
 RoutingTable::RoutingTable() {}
 RoutingTable::RoutingTable(const std::string& path) { Load(path); }

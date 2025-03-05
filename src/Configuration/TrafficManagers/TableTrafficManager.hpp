@@ -1,6 +1,7 @@
 #pragma once
 #include <random>
 #include <string>
+#include <cstdint>
 
 #include "TrafficManager.hpp"
 
@@ -26,6 +27,6 @@ class TableTrafficManager : public TrafficManager {
                       const std::string& file, double default_pir,
                       double total_global_time);
 
-  virtual bool FirePacket(std::int32_t from, double time) const override;
-  virtual std::int32_t FindDestination(std::int32_t from) const override;
+  bool FirePacket(std::int32_t from, double time) const override;
+  std::int32_t FindDestination(std::int32_t from) const override;
 };

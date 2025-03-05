@@ -26,17 +26,17 @@ int sc_main(int arg_num, char* arg_vet[]) {
     SimulationTimer Timer(Config.ClockPeriodPS(), Config.ResetTime(),
                           Config.StatsWarmUpTime(), Config.SimulationTime(),
                           Config.ProductionTime());
-    Network Network(Config, Timer);
-    GlobalStats stats(Network, Config);
+    Network net(Config, Timer);
+    GlobalStats stats(net, Config);
 
     std::unique_ptr<ProgressBar> Bar;
     if (Config.ReportProgress())
-      Bar = std::make_unique<ProgressBar>(std::cout, Timer, 20, Network.clock);
+      Bar = std::make_unique<ProgressBar>(std::cout, Timer, 20, net.clock);
 
-    Network.reset.write(true);
+    net.reset.write(true);
     std::cout << "Reset for " << Config.ResetTime() << " cycles... ";
     sc_start(Config.ResetTime(), SC_NS);
-    Network.reset.write(false);
+    net.reset.write(false);
     std::cout << " done!\n";
 
     std::cout << " Now running for " << Config.SimulationTime()

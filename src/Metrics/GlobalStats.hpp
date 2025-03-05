@@ -13,7 +13,7 @@ class GlobalStats : public sc_module {
 
  private:
   const Configuration& Config;
-  const Network& Network;
+  const Network& net_;
 
   std::size_t GetActualFlitsReceived() const;
   std::size_t GetActualFlitsAccepted() const;
